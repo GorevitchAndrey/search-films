@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON</title>
+    <style>
+        body {
+            background-color: rgb(185, 185, 185);
+        }
+        .film {
+            padding: 10px;
+            display: flex:
+        }
+        img {
+            height: 350px;
+            width: 260px;
+            margin: 10px
+        }
+        #result {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            text-align: center;
+            max-width: 2000px;
+            min-width: 600px;
+        }
+        div {
+            border: 1px solid lightgrey;
+        }
+        #search {
+            width: 250px;
+            margin-bottom: 5px
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter keyword</h2>
+    <input type='search' id='search'>
+    <button onclick="getInfo()">Search movie</button>
+    <div id='result'></div>
+    <script>
+        const search = document.getElementById('search'),
+            result = document.getElementById('result');
+
+        function getInfo() {
+            fetch('https://www.omdbapi.com/?apikey=a2b07930&s=' + search.value)
+                .then(r => r.json())
+                .then(r => showInfo(r))
+        }
+
+        function showInfo(so) {
+            result.innerHTML = '';
+            for (let film of so.Search) {
+                let div = document.createElement('div');
+                let img = document.createElement('img');
+                img.src = film.Poster;
+                let p = document.createElement('p');
+                p.innerText = film.Title + ' ' + film.Year;
+                div.append(img);
+                div.append(p);
+                result.append(div);
+            }
+        }
+    </script>
+</body>
+
+</html>
